@@ -1,0 +1,24 @@
+{
+  retirements (
+    orderBy: eventId,
+    where: {
+      eventId_gte: {{ id_gte }},
+      eventId_lt: {{ id_lt }}
+    }
+  ) {
+    id
+    creationTx
+    amount
+    timestamp
+    token {
+      address
+    }
+    creator {
+      id
+    }
+    eventId
+    certificate {
+      id
+    }
+  }
+}
