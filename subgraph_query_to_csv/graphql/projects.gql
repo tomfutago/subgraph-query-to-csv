@@ -1,0 +1,23 @@
+{
+  projects(
+    first: 100,
+    skip: {{ skip_num }},
+    orderBy: timestamp
+  ) {
+    id
+    owner {
+      id
+    }
+    timestamp
+    tx
+    projectId
+    standard
+    methodology
+    region
+    storageMethod
+    method
+    emissionType
+    category
+    uri
+  }
+}

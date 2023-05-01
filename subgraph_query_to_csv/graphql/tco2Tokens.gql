@@ -1,0 +1,21 @@
+{
+  tco2Tokens(
+    first: 100,
+    skip: {{ skip_num }},
+    orderBy: createdAt
+  ) {
+    id
+    creator {
+      id
+    }
+    createdAt
+    creationTx
+    projectVintage {
+      id
+    }
+    name
+    symbol
+    address
+    score
+  }
+}

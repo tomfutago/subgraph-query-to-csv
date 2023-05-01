@@ -1,9 +1,9 @@
 {
-  retirements (
+  retirements(
     orderBy: eventId,
     where: {
-      eventId_gte: {{ id_gte }},
-      eventId_lt: {{ id_lt }}
+      eventId_gte: {{ skip_num }},
+      eventId_lt: {{ skip_num + 100 }}
     }
   ) {
     id

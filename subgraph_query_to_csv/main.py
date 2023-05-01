@@ -18,13 +18,17 @@ def pull_data_to_csv(chain: str, query_type: str):
         subgraph_url = SUBGRAPH_API_URL_CELO
     elif chain == "polygon":
         subgraph_url = SUBGRAPH_API_URL_POLYGON
+    else:
+        print("incorrect chain")
+        return
     
     env = Environment(loader=FileSystemLoader("subgraph_query_to_csv/graphql/"))
     template = env.get_template(f"{query_type}.gql")
 
-    for i in range(1, 10000, 100):
-        query = template.render(id_gte = i, id_lt = i+100)
+    for i in range(0, 10000, 100):
+        query = template.render(skip_num = i)
         json_output = send_query(query=query, url=subgraph_url)
+        
         if "error" in json_output:
             print("incorrect or no data for this query")
             break
@@ -32,7 +36,7 @@ def pull_data_to_csv(chain: str, query_type: str):
         df_tmp = pd.json_normalize(json_output["data"][query_type])
         if df_tmp.empty:
             break
-        if i == 1: # only once
+        if i == 0: # only once
             df = pd.concat([df_tmp])
         else:
             df = pd.concat([df, df_tmp])
@@ -48,4 +52,12 @@ def pull_data_to_csv(chain: str, query_type: str):
     # save pulled data
     df.to_csv(f"output/{chain}_{query_type}.csv", index=False)
 
+# ******************************************************
+# Celo queries
 pull_data_to_csv(chain="celo", query_type="retirements")
+pull_data_to_csv(chain="celo", query_type="projects")
+pull_data_to_csv(chain="celo", query_type="tco2Tokens")
+# Polygon queries
+pull_data_to_csv(chain="polygon", query_type="retirements")
+pull_data_to_csv(chain="polygon", query_type="projects")
+pull_data_to_csv(chain="polygon", query_type="tco2Tokens")
